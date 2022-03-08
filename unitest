@@ -73,7 +73,7 @@ declare -a c_exit=("exit 42"
 		   "ls -Z"
 		   "cd gdhahahad"
 		   "ls -la | wtf"
-	   )
+		   )
 
 declare -a c_env=("env | sort | grep -v SHLVL | grep -v _="
 		  "export | sort | grep -v SHLVL | grep -v _= | grep -v OLDPWD"
@@ -91,12 +91,11 @@ declare -a c_env=("env | sort | grep -v SHLVL | grep -v _="
 		  'export TEST+=LOL' 
 		  'export TEST="ls       -l     - a" '
 		  'echo $TEST'
-		  'env | sort'
-		  'export LOL=lala ROR=rara | env | sort'
- 		  'unset LOL ROR | env | sort'
- 		  'export "HI= hi"| env | sort'
- 		  'export "HI =hi"| env | sort'
-		  'export | sort'
+		  'export LOL=lala ROR=rara | env | sort | grep LOL ROR'
+ 		  'unset LOL ROR | env | sort | grep LOL ROR'
+ 		  'export "HI= hi"| env | sort | grep HI'
+ 		  'export "HI =hi"| env | sort | grep HI'
+ 		  'export HI=h"i| env | sort | greg HI'
 		   )
 
 declare -a c_syntax=('" echo" lol'
@@ -108,7 +107,7 @@ declare -a c_syntax=('" echo" lol'
  		     '| test'
  		     'echo > <'
  		     'echo | |'
- 		     'echo "||"'
+ 		     'echo ||'
  		     '<'
  		     'rm -f ls; cat < ls > ls'
  		     "grep -z"
@@ -280,7 +279,7 @@ builtin_env()
 	printf	"==     env\export     ==\n"
 	printf	"========================\n"
 	printf "${RESET}"
-	for i in ${c_exit[@]}
+	for i in ${c_env[@]}
 	do
 		exec_run ${i}
 	done
