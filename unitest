@@ -12,7 +12,7 @@ exe=".././minishell"
 e=0
 g=0
 rm -rf _logError
-
+cp ../Makefile .
 ##############################################################################################################
 ##						minishell 						    ##
 ##############################################################################################################
@@ -99,6 +99,23 @@ declare -a c_env=("env | sort | grep -v SHLVL | grep -v _="
 		  'export | sort'
 		   )
 
+declare -a c_syntax=('" echo" lol'
+ 		     '"echo " lol'
+ 		     '" echo" | " pwd"'
+ 		     '"echo " | "pwd "'
+ 		     '/bin/lsa'
+ 		     './Makefile'
+ 		     '| test'
+ 		     'echo > <'
+ 		     'echo | |'
+ 		     'echo "||"'
+ 		     '<'
+ 		     'rm -f ls; cat < ls > ls'
+ 		     "grep -z"
+ 		     "ls'| 'wc -l"
+ 		     "/ls"
+)
+
 declare -a c_unset=('unset PWD | ls'
 		    'unset PWD | /bin/Ls'
 		    'unset PWD | /bin/ls'
@@ -117,6 +134,9 @@ declare -a c_redi=('echo test > ls'
 		   'cat < ls'
 		   'cat < ls > ls'
 		   'rm -rf ls test lol mdr lol echo'
+		   'head -c 2000000 /dev/zero > big_file'
+		   'cat big_file | ls'
+		   'cat big_file | echo lol'
 	   	   )
 declare -a c_pipe=('cat tests/lorem.txt | grep arcu | cat -e'
 		   'echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e'
@@ -135,13 +155,13 @@ declare -a c_error=(';; test'
 ##############################################################################################################
 ##						minishell bonus						    ##
 ##############################################################################################################
-declare -a c_and=('ls && cat Makefile'
-		 'ls && error'
-	         'cat -e Makefile && ls && ls && ls && ls && ls && ls'
+declare -a c_and=('cd .. && ls && cat Makefile'
+		 'cd .. && ls && error'
+	         'cd .. && cat -e Makefile && ls && ls && ls && ls && ls && ls'
 	 	)
 
 declare -a c_ou=('ls || cat greg'
-		'cat -e Makefile || ls'
+		'cd .. && cat -e Makefile || ls'
 		'ls || ls || grz || lol'
 		)
 
@@ -151,20 +171,20 @@ declare -a c_par=('((ls))'
 		 '(none)'
 	 	)
 
-declare -a c_wid=('cat M*'
-		 'cat M*e'
-		 'touch testelele && cat *le && rm -rf testelele'
-		 'echo salut > _tesit && cat _**************************************************************it && cat *esit && rm -rf _tesit'
-		 'touch ....... && la .* && rm -rf .......'
-		 'ls ./* * .* '
-		 'ls ./*'
-		 'rm -rf .......'
+declare -a c_wid=('cd .. && cat M*'
+		 'cd .. && cat M*e'
+		 'cd .. && touch testelele && cat *le && rm -rf testelele'
+		 'cd .. && echo salut > _tesit && cat _**************************************************************it && cat *esit && rm -rf _tesit'
+		 'cd .. && touch ....... && la .* && rm -rf .......'
+		 'cd .. && ls ./* * .* '
+		 'cd .. && ls ./*'
+		 'cd .. && rm -rf .......'
 	 	)
 
-declare -a c_all_bonus=('(lol) || (ls ./*) && ls .*'
-		       '(ls) && (cat -e Makefil | tr ab 12) || cat -e Makefile | tr ab 12 > _test && cat -e _test && rm _test'
-		       '(ls) && sgrvgrg || cat -e Makefile | tr ab 12 > _test && cat -e _test && rm _test'
-		       'ls  (test(test))'
+declare -a c_all_bonus=('cd .. && (lol) || (ls ./*) && ls .*'
+		       'cd .. && (ls) && (cat -e Makefil | tr ab 12) || cat -e Makefile | tr ab 12 > _test && cat -e _test && rm _test'
+		       'cd .. && (ls) && sgrvgrg || cat -e Makefile | tr ab 12 > _test && cat -e _test && rm _test'
+		       'cd .. && ls  (test(test))'
 		)
 IFS=""
 
@@ -370,7 +390,20 @@ builtin_wild()
 {
 	printf "${CYAN}"
 	printf	"========================\n"
-	printf	"==     all bonus      ==\n"
+	printf	"==      wildcard      ==\n"
+	printf	"========================\n"
+	printf "${RESET}"
+	for i in ${c_wid[@]}
+	do
+		exec_run ${i}
+	done
+}
+
+builtin_syntax()
+{
+	printf "${CYAN}"
+	printf	"========================\n"
+	printf	"==     syntax         ==\n"
 	printf	"========================\n"
 	printf "${RESET}"
 	for i in ${c_wid[@]}
@@ -399,6 +432,8 @@ if [ $# -eq 0 ]; then
 	builtin_exit
 	builtin_redi
 	builtin_pipe
+	builtin_wild
+	builtin_syntax
 	builtin_error
 	count
 	if [ ${e} -gt 0 ]; then
@@ -449,6 +484,18 @@ if [ $# -gt 0 ]; then
 		if [ ${e} -gt 0 ]; then
 			cat -e _logError
 		fi
+	elif [ $1 = "wildcard" ]; then
+		builtin_wild
+		count
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "syntax" ]; then
+		builtin_syntax
+		count
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
 	elif [ $1 = "error" ]; then
 		builtin_error
 		count
@@ -468,7 +515,7 @@ if [ $# -gt 0 ]; then
 	elif [ $1 = "-c" ] && [ $# -eq 2 ]; then
 		exec_run $2
 	else
-	 	printf "command:\n\techo\n\tcd\n\tcd\n\tenv\n\tunset\n\texit\n\tredi\n\tpipe\n\terror\n\t-c \"cmd\"\n"
+	 	printf "command:\n\techo\n\tcd\n\tcd\n\tenv\n\tunset\n\texit\n\tredi\n\tpipe\n\terror\n\tsyntax\n\twildcard\n\t-c \"cmd\"\n"
 	fi
 fi
  
