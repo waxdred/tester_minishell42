@@ -8,7 +8,7 @@ BLUE="\033[34m"
 MAGENTA="\033[35m"
 CYAN="\033[36m"
 WHITE="\033[37m"
-exe="./minishell"
+exe=".././minishell"
 e=0
 g=0
 rm -rf _logError
@@ -179,13 +179,13 @@ exec_run()
 	sleep 0.1
 	if [[ $(diff _log _log1) ]];
 	then
-		echo ${RED}Error!${RESET}
+		printf "${RED}Error!${RESET}\n"
 		echo "cmd----->"${@} >> _logError
 		cat _log >> _logError
 		cat _log1 >> _logError
 		let "e += 1"
 	else
-		echo ${GREEN}Ok!${RESET}
+		printf "${GREEN}Ok!${RESET}\n"
 		let "g += 1"
 	fi
 }
@@ -407,39 +407,55 @@ if [ $# -eq 0 ]; then
 	rm -rf _log _log1
 fi
 if [ $# -gt 0 ]; then
-	if [ $1 = "echo" ] && [ $# -eq 2 ]; then
+	if [ $1 = "echo" ]; then
 		builtin_echo
 		count
-	fi
-	if [ $1 = "cd" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "cd" ]; then
 		builtin_cd
 		count
-	fi
-	if [ $1 = "env" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "env" ]; then
 		builtin_env
 		count
-	fi
-	if [ $1 = "unset" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "unset" ]; then
 		builtin_unset
 		count
-	fi
-	if [ $1 = "exit" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "exit" ]; then
 		builtin_exit
 		count
-	fi
-	if [ $1 = "redi" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "redi" ]; then
 		builtin_redi
 		count
-	fi
-	if [ $1 = "pipe" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "pipe" ]; then
 		builtin_pip
 		count
-	fi
-	if [ $1 = "error" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "error" ]; then
 		builtin_error
 		count
-	fi
-	if [ $1 = "bonus" ] && [ $# -eq 2 ]; then
+		if [ ${e} -gt 0 ]; then
+			cat -e _logError
+		fi
+	elif [ $1 = "bonus" ]; then
 		builtin_and
 		builtin_ou
 		builtin_par
@@ -449,14 +465,10 @@ if [ $# -gt 0 ]; then
 		if [ ${e} -gt 0 ]; then
 			cat -e _logError
 		fi
-	fi
-	if [ $1 = "-c" ] && [ $# -eq 2 ]; then
+	elif [ $1 = "-c" ] && [ $# -eq 2 ]; then
 		exec_run $2
-	fi
-	if [ $1 = "-c" ] && [ $# -gt 2 ]; then
-		echo "error use -c \"cmd\" "
-	fi
 	else
-		echo "command:\n\techo\n\tcd\n\tcd\n\tenv\n\tunset\n\texit\n\tredi\n\tpipe\n\terror\n\t-c \"cmd\""
+	 	printf "command:\n\techo\n\tcd\n\tcd\n\tenv\n\tunset\n\texit\n\tredi\n\tpipe\n\terror\n\t-c \"cmd\"\n"
+	fi
 fi
  
