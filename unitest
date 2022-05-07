@@ -434,7 +434,7 @@ if [ $# -eq 0 ]; then
 	builtin_error
 	count
 	if [ ${e} -gt 0 ]; then
-		cat -e _logError
+		cat _logError
 	fi
 	rm -rf _log _log1
 fi
@@ -443,61 +443,61 @@ if [ $# -gt 0 ]; then
 		builtin_echo
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "cd" ]; then
 		builtin_cd
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "env" ]; then
 		builtin_env
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "unset" ]; then
 		builtin_unset
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "exit" ]; then
 		builtin_exit
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "redi" ]; then
 		builtin_redi
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "pipe" ]; then
 		builtin_pip
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "wildcard" ]; then
 		builtin_wild
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "syntax" ]; then
 		builtin_syntax
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "error" ]; then
 		builtin_error
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "bonus" ]; then
 		builtin_and
@@ -507,7 +507,7 @@ if [ $# -gt 0 ]; then
 		builtin_all_bonus
 		count
 		if [ ${e} -gt 0 ]; then
-			cat -e _logError
+			cat _logError
 		fi
 	elif [ $1 = "-c" ] && [ $# -eq 2 ]; then
 		exec_run $2
