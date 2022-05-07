@@ -430,7 +430,6 @@ if [ $# -eq 0 ]; then
 	builtin_exit
 	builtin_redi
 	builtin_pipe
-	builtin_wild
 	builtin_syntax
 	builtin_error
 	count
@@ -516,4 +515,4 @@ if [ $# -gt 0 ]; then
 	 	printf "command:\n\techo\n\tcd\n\tcd\n\tenv\n\tunset\n\texit\n\tredi\n\tpipe\n\terror\n\tsyntax\n\twildcard\n\t-c \"cmd\"\n"
 	fi
 fi
- 
+rm _tesit big_file _log1 _log2 2>/dev/null 
